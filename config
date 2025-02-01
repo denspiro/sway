@@ -18,33 +18,39 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu -nb '#191724' -nf '#c6c8d1' -sb '#908caa' -sf '#191724' | xargs swaymsg exec --
+set $menu tofi-run | xargs swaymsg exec --
 
 set $highlight #908caa
 
-### I/O configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg #191724 solid_color
+
 #
 # Example configuration:
 #
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+   # Work
+#     output DP-2 res 3840x2160 pos 0 0 bg #191724 solid_color
+#     output eDP-1 res 3840x1440 pos 0 1440 bg #191724 solid_color
+   # Home
+output DP-1 res 2560x1440 pos 0 0 bg #191724 solid_color
+output eDP-1 res 3840x1440 pos 0 1440 bg #191724 solid_color
+
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-input "1267:12573:ELAN040D:00_04F3:311D_Touchpad" {
-    dwt enabled
-    tap enabled
-    natural_scroll enabled
-    middle_emulation enabled
+input "1267:12572:DLL0945:00_04F3:311C_Touchpad" {
+    events disabled
+    #dwt enabled
+    #tap enabled
+    #natural_scroll enabled
+    #middle_emulation enabled
+    ## disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
+    #accel_profile "adaptive"
+    ## set mouse sensitivity (between -1 and 1)
+    #pointer_accel 0.7
 }
 
-# Hiding cursor
-bindsym $mod+F1 exec swaymsg input "1267:12573:ELAN040D:00_04F3:311D_Touchpad" events toggle
 seat * hide_cursor 5000
 
 input "1:1:AT_Translated_Set_2_keyboard" {
-  events enabled
+  events disabled
 }
 
 ### Idle configuration
@@ -60,8 +66,8 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 # Lock screen manually
-bindsym $mod+F12 exec systemctl hibernate && swaylock -c 161821
-bindsym $mod+F11 exec systemctl suspend swaylock -c 161821
+bindsym $mod+F12 exec systemctl hybrid-sleep && swaylock -c 161821
+bindsym $mod+F11 exec swaylock -c 161821
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -221,23 +227,24 @@ bar {
 #
 # Titlebars
 #
-default_border pixel 0px
-default_floating_border none
-titlebar_border_thickness 2
-titlebar_padding 4
-hide_edge_borders smart
-font pango:IBM Plex Mono 9
+default_border pixel 1
+default_floating_border pixel 4
+for_window [floating] border pixel 4
+titlebar_border_thickness 1
+titlebar_padding 5
+#hide_edge_borders vertical
+font pango:IBM Plex Mono 10
 
 #
 # Colors #93cee9
 #
 # class                     border  backgr. text  indicator child_border
 # Window borders
-    client.focused          #191724 #908caa #191724 #111111   #111111
-    client.focused_inactive #191724 #908caa #191724 #111111   #111111
-    client.unfocused        #191724 #191724 #908caa #111111   #111111
-    client.urgent           #191724 #9ccfd8 #191724 #111111   #111111
+    client.focused          #9ccfd8 #9ccfd8 #191724 #9ccfd8   #9ccfd8
+    client.focused_inactive #524f67 #191724 #524f67 #191724   #191724
+    client.unfocused        #26233a #191724 #908caa #191724   #191724
+    client.urgent           #191724 #eb6f92 #191724 #eb6f92   #eb6f92
     client.placeholder      #191724 #191724 #9ccfd8 #111111   #111111
-    client.background       #191724
+    client.background       #191724 #191724
 
 include /etc/sway/config.d/*
